@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorado Coronavirus Snapshot | The Denver Post</title>
+    <link rel="shortcut icon" href="https://extras.mnginteractive.com/live/media/favIcon/dpo/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.14/c3.css" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.js"></script>
+    <script src="https://extras.denverpost.com/foundation/js/vendor/modernizr.js"></script>
+    <script src="https://extras.denverpost.com/app/homicide-report/js/d3.v3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.14/c3.js"></script>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Condensed&display=swap');
+
+    html,
+    body {
+        margin-top: 10px;
+    }
+
+    p,
+    h2 {
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .page-footer {
+        font-size: .8rem;
+        color: #aaa;
+        line-height: 1.3;
+    }
+
+    .no-show {
+        display: none;
+    }
+
+    /*.c3-line {
+        stroke-width: 1.5px;
+    }*/
+
+    .c3-target-gsx-womendem2016--t {
+        stroke-dasharray: 2, 3;
+    }
+
+    /*.c3-ygrid {
+        stroke-dasharray: none;
+        stroke: red !important;
+    }*/
+
+    .c3-region {
+        fill-opacity: 1;
+    }
+
+    .c3-region.dem-women-2016 {
+        fill: rgba(60, 72, 132, 1);
+    }
+
+    .c3-region.rep-women-2016 {
+        fill: rgba(140, 34, 18, 1);
+    }
+
+    .c3-region.uaf-women-2016 {
+        fill: rgba(230, 164, 90, 1);
+    }
+
+    .percent-callout-dem,
+    .percent-callout-rep,
+    .percent-callout-uaf {
+        color: #000;
+        padding: 2px;
+        font-size: .9rem;
+        font-weight: bold;
+        text-align: center;
+        margin-left: 3px;
+    }
+
+    .percent-callout-dem {
+        background-color: rgba(60, 72, 132, .3);
+    }
+
+    .percent-callout-rep {
+        background-color: rgba(140, 34, 18, .3);
+    }
+
+    .percent-callout-uaf {
+        background-color: rgba(230, 164, 90, .3);
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .chart-title {
+        font-family: 'Roboto Condensed', sans-serif;
+        font-weight: bold;
+        color: #1a1a1a;
+        border-bottom: 3px solid #1a1a1a;
+        margin: 8px 0 0 0;
+    }
+
+    .chart-subtitle {
+        margin: 8px 0 5px 0;
+        font-size: .9rem;
+        font-family: 'Roboto Condensed', sans-serif;
+        line-height: 16px;
+    }
+
+    .container-outline {
+        border: 1px solid #1a1a1a;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <h2>Colorado</h2>
+        <p>These charts show the number of ballots returned daily by voters registered as Democrat, Republican or unaffiliated. The colored horizontal lines show the total ballots returned by party in 2016 for each group. <em>Hover/tap on circles for details; click/tap legend items to filter chart.</em></p>
+        <div class="large-4 medium-4 columns container-outline">
+            <h3 class="center chart-title">All voters</h3>
+            <!-- <p>Ballots cast by all voters as of today equal <span class="percent-callout"><span id="all-voters-pct-2016"></span>%</span> of total turnout* in 2016.</p> -->
+            <p class="center chart-subtitle">Percent of total 2016<br>turnout* as of today:</p>
+            <p class="center"><span class="percent-callout-dem">DEM <span id="all-voters-pct-dem"></span>%</span> <span class="percent-callout-rep">REP <span id="all-voters-pct-rep"></span>%</span> <span class="percent-callout-uaf">UAF <span id="all-voters-pct-uaf"></span>%</span></p>
+            <div id="colorado-all-voters-chart"></div>
+        </div>
+        <div class="large-4 medium-4 columns container-outline">
+            <h3 class="center chart-title">Women</h3>
+            <p class="center chart-subtitle">Percent of women's total 2016<br>turnout* as of today:</p>
+            <p class="center"><span class="percent-callout-dem">DEM <span id="women-voters-pct-dem"></span>%</span> <span class="percent-callout-rep">REP <span id="women-voters-pct-rep"></span>%</span> <span class="percent-callout-uaf">UAF <span id="women-voters-pct-uaf"></span>%</span></p>
+            <div id="colorado-women-chart"></div>
+        </div>
+        <div class="large-4 medium-4 columns container-outline">
+            <h3 class="center chart-title">Men</h3>
+            <p class="center chart-subtitle">Percent of men's total 2016<br>turnout* as of today:</p>
+            <p class="center"><span class="percent-callout-dem">DEM <span id="men-voters-pct-dem"></span>%</span> <span class="percent-callout-rep">REP <span id="men-voters-pct-rep"></span>%</span> <span class="percent-callout-uaf">UAF <span id="men-voters-pct-uaf"></span>%</span></p>
+            <div id="colorado-men-chart"></div>
+        </div>
+        <p><em>*For voters registered as Democrat, Republican and unaffiliated</em></p>
+    </div>
+    <script>
+    var smallChartHeight = 250;
+    var chartSpreadsheetID = '1UII4X9Qp1UybeN8O-7hY45bWH2zHrkd3qVW3JD7C3RE/1';
+    var url = "https://spreadsheets.google.com/feeds/list/" + chartSpreadsheetID + "/public/full?alt=json";
+
+    $.getJSON(url, function(data) {
+        var sheetJson = data.feed.entry;
+        console.log(sheetJson);
+        // var allVotersPctOf2016 = Number(sheetJson[0].gsx$allvoterspct2016.$t);
+        // var womenPctOf2016 = Number(sheetJson[0].gsx$womenpct2016.$t);
+        // var menPctOf2016 = Number(sheetJson[0].gsx$menpct2016.$t);
+        // var displayTotalHospitalizations = Number(sheetJson[0].gsx$totalhospitalizations.$t);
+        // document.getElementById('updated-time').innerHTML = sheetJson[0].gsx$updated.$t;
+
+        // document.getElementById('total-related-deaths').innerHTML = displayRelatedDeaths.toLocaleString();
+        // document.getElementById('total-covid-deaths').innerHTML = displayCovidDeaths.toLocaleString();
+        // document.getElementById('total-hospitalizations').innerHTML = displayTotalHospitalizations.toLocaleString();
+
+        // var notHospitalizationsArrayLength = sheetJson.length - 1;
+        // var hospitalizationsArrayLength = sheetJson.length;
+        // var allData = sheetJson.slice(0, -1);
+        // var recentData = sheetJson.slice(-90, notHospitalizationsArrayLength); // Get last 90 days of data for all charts except current hospitalizations
+        // var recentHospitalizationsData = sheetJson.slice(-90);
+
+        var allVoteArray = [];
+        var womenVoteArray = [];
+        var menVoteArray = [];
+        for (var i = 0; i < sheetJson.length; i++) {
+            if (sheetJson[i].gsx$womendem2020.$t != 'null') {
+                allVoteArray.push(
+                        sheetJson[i].gsx$allvotersdem2020.$t,
+                        sheetJson[i].gsx$allvotersrep2020.$t,
+                        sheetJson[i].gsx$allvotersuaf2020.$t
+                    ),
+                    womenVoteArray.push(
+                        sheetJson[i].gsx$womendem2020.$t,
+                        sheetJson[i].gsx$womenrep2020.$t,
+                        sheetJson[i].gsx$womenuaf2020.$t
+                    ),
+                    menVoteArray.push(
+                        sheetJson[i].gsx$mendem2020.$t,
+                        sheetJson[i].gsx$menrep2020.$t,
+                        sheetJson[i].gsx$menuaf2020.$t
+                    )
+            }
+        };
+        var allVoteLatest = allVoteArray.slice(-3);
+        var womenVoteLatest = womenVoteArray.slice(-3);
+        var menVoteLatest = menVoteArray.slice(-3);
+        // var allVoteTotal = Number(allVoteLatest.slice(0,1)) + Number(allVoteLatest.slice(1,2)) + Number(allVoteLatest.slice(2,3));
+        // var womenVoteTotal = Number(womenVoteLatest.slice(0,1)) + Number(womenVoteLatest.slice(1,2)) + Number(womenVoteLatest.slice(2,3));
+        // var menVoteTotal = Number(menVoteLatest.slice(0,1)) + Number(menVoteLatest.slice(1,2)) + Number(menVoteLatest.slice(2,3));
+        // var allVotersPctOf2016 = Math.round((allVoteTotal / 2830537) * 100);
+        // var womenPctOf2016 = Math.round((womenVoteTotal / 1476312) * 100);
+        // var menPctOf2016 = Math.round((menVoteTotal / 1319350) * 100);
+
+        // document.getElementById('all-voters-pct-2016').innerHTML = allVotersPctOf2016.toLocaleString();
+        // document.getElementById('women-pct-2016').innerHTML = womenPctOf2016.toLocaleString();
+        // document.getElementById('men-pct-2016').innerHTML = menPctOf2016.toLocaleString();
+        var allDemLatest = Math.round((allVoteLatest[0] / 942729) * 100);
+        var allRepLatest = Math.round((allVoteLatest[1] / 962029) * 100);
+        var allUafLatest = Math.round((allVoteLatest[2] / 925779) * 100);
+        var womenDemLatest = Math.round((womenVoteLatest[0] / 558967) * 100);
+        var womenRepLatest = Math.round((womenVoteLatest[1] / 472008) * 100);
+        var womenUafLatest = Math.round((womenVoteLatest[2] / 445337) * 100);
+        var menDemLatest = Math.round((menVoteLatest[0] / 372247) * 100);
+        var menRepLatest = Math.round((menVoteLatest[1] / 483245) * 100);
+        var menUafLatest = Math.round((menVoteLatest[2] / 463858) * 100);
+
+        document.getElementById('all-voters-pct-dem').innerHTML = allDemLatest;
+        document.getElementById('all-voters-pct-rep').innerHTML = allRepLatest;
+        document.getElementById('all-voters-pct-uaf').innerHTML = allUafLatest;
+        document.getElementById('women-voters-pct-dem').innerHTML = womenDemLatest;
+        document.getElementById('women-voters-pct-rep').innerHTML = womenRepLatest;
+        document.getElementById('women-voters-pct-uaf').innerHTML = womenUafLatest;
+        document.getElementById('men-voters-pct-dem').innerHTML = menDemLatest;
+        document.getElementById('men-voters-pct-rep').innerHTML = menRepLatest;
+        document.getElementById('men-voters-pct-uaf').innerHTML = menUafLatest;
+
+        /// COLORADO ALL VOTERS CHART
+        var coloradoAllVotersChart = c3.generate({
+            bindto: '#colorado-all-voters-chart',
+            size: {
+                height: 350
+                //width: 800
+            },
+            data: {
+                json: sheetJson,
+                keys: {
+                    x: 'gsx$date.$t',
+                    value: ['gsx$allvotersdem2020.$t', 'gsx$allvotersrep2020.$t', 'gsx$allvotersuaf2020.$t', 'gsx$allvotersdem2016.$t', 'gsx$allvotersrep2016.$t', 'gsx$allvotersuaf2016.$t']
+                },
+                names: {
+                    'gsx$allvotersdem2020.$t': '2020 Democrat',
+                    'gsx$allvotersrep2020.$t': '2020 Republican',
+                    'gsx$allvotersuaf2020.$t': '2020 Unaffiliated',
+                    'gsx$allvotersdem2016.$t': '2016 Democrat',
+                    'gsx$allvotersrep2016.$t': '2016 Republican',
+                    'gsx$allvotersuaf2016.$t': '2016 Unaffiliated'
+                },
+                //  types: {
+                //     'gsx$onsetdailycases.$t': 'bar',
+                //     'gsx$reporteddailycasesaverage.$t': 'line'
+                // },
+                colors: {
+                    'gsx$allvotersdem2020.$t': 'rgba(60, 72, 132, 1)',
+                    'gsx$allvotersdem2016.$t': 'rgba(60, 72, 132, .5)',
+                    'gsx$allvotersrep2020.$t': 'rgba(140, 34, 18, 1)',
+                    'gsx$allvotersrep2016.$t': 'rgba(140, 34, 18, .5)',
+                    'gsx$allvotersuaf2020.$t': 'rgba(230, 164, 90, 1)',
+                    'gsx$allvotersuaf2016.$t': 'rgba(230, 164, 90, .5)',
+
+                }
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    // tick: {
+                    //     rotate: 0,
+                    //     multiline: false,
+                    //     culling: {
+                    //         max: 1
+                    //     }
+                    // },
+                    tick: {
+                        count: 2
+                    },
+                    padding: {
+                        right: 2
+                    }
+                },
+                y: {
+                    tick: {
+                        format: d3.format(','),
+                        //values: [200000, 400000, 600000, 800000, 1000000, 1200000]
+                    },
+                    max: 1000000
+                }
+            },
+            grid: {
+                x: {
+                    show: false
+                },
+                y: {
+                    show: false
+                }
+            },
+            // point: {
+            //     r: 1
+            // },
+            regions: [
+                { axis: 'y', start: 940729, end: 944729, opacity: 1, class: 'dem-women-2016' },
+                { axis: 'y', start: 960029, end: 964029, opacity: 1, class: 'rep-women-2016' },
+                { axis: 'y', start: 923779, end: 927779, opacity: 1, class: 'uaf-women-2016' },
+            ]
+        })
+
+        /// COLORADO WOMEN CHART
+        var coloradoWomenChart = c3.generate({
+            bindto: '#colorado-women-chart',
+            size: {
+                height: 350
+                //width: 800
+            },
+            data: {
+                json: sheetJson,
+                keys: {
+                    x: 'gsx$date.$t',
+                    value: ['gsx$womendem2020.$t', 'gsx$womenrep2020.$t', 'gsx$womenuaf2020.$t', 'gsx$womendem2016.$t', 'gsx$womenrep2016.$t', 'gsx$womenuaf2016.$t']
+                },
+                names: {
+                    'gsx$womendem2020.$t': '2020 Democrat',
+                    'gsx$womenrep2020.$t': '2020 Republican',
+                    'gsx$womenuaf2020.$t': '2020 Unaffiliated',
+                    'gsx$womendem2016.$t': '2016 Democrat',
+                    'gsx$womenrep2016.$t': '2016 Republican',
+                    'gsx$womenuaf2016.$t': '2016 Unaffiliated'
+                },
+                //  types: {
+                //     'gsx$onsetdailycases.$t': 'bar',
+                //     'gsx$reporteddailycasesaverage.$t': 'line'
+                // },
+                colors: {
+                    'gsx$womendem2020.$t': 'rgba(60, 72, 132, 1)',
+                    'gsx$womendem2016.$t': 'rgba(60, 72, 132, .5)',
+                    'gsx$womenrep2020.$t': 'rgba(140, 34, 18, 1)',
+                    'gsx$womenrep2016.$t': 'rgba(140, 34, 18, .5)',
+                    'gsx$womenuaf2020.$t': 'rgba(230, 164, 90, 1)',
+                    'gsx$womenuaf2016.$t': 'rgba(230, 164, 90, .5)',
+
+                }
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    // tick: {
+                    //     rotate: 0,
+                    //     multiline: false,
+                    //     culling: {
+                    //         max: 1
+                    //     }
+                    // },
+                    tick: {
+                        count: 2
+                    },
+                    padding: {
+                        right: 2
+                    }
+                },
+                y: {
+                    tick: {
+                        format: d3.format(','),
+                        //values: [100000, 200000, 300000, 400000, 500000, 600000]
+                    },
+                    max: 600000
+                }
+            },
+            grid: {
+                x: {
+                    show: false
+                },
+                y: {
+                    show: false
+                }
+            },
+            // point: {
+            //     r: 1
+            // },
+            regions: [
+                { axis: 'y', start: 556967, end: 560967, opacity: 1, class: 'dem-women-2016' },
+                { axis: 'y', start: 470008, end: 474008, opacity: 1, class: 'rep-women-2016' },
+                { axis: 'y', start: 443337, end: 447337, opacity: 1, class: 'uaf-women-2016' },
+            ]
+        })
+
+        /// COLORADO MEN CHART
+        var coloradoMenChart = c3.generate({
+            bindto: '#colorado-men-chart',
+            size: {
+                height: 350
+                //width: 800
+            },
+            data: {
+                json: sheetJson,
+                keys: {
+                    x: 'gsx$date.$t',
+                    value: ['gsx$mendem2020.$t', 'gsx$menrep2020.$t', 'gsx$menuaf2020.$t', 'gsx$mendem2016.$t', 'gsx$menrep2016.$t', 'gsx$menuaf2016.$t']
+                },
+                names: {
+                    'gsx$mendem2020.$t': '2020 Democrat',
+                    'gsx$menrep2020.$t': '2020 Republican',
+                    'gsx$menuaf2020.$t': '2020 Unaffiliated',
+                    'gsx$mendem2016.$t': '2016 Democrat',
+                    'gsx$menrep2016.$t': '2016 Republican',
+                    'gsx$menuaf2016.$t': '2016 Unaffiliated'
+                },
+                //  types: {
+                //     'gsx$onsetdailycases.$t': 'bar',
+                //     'gsx$reporteddailycasesaverage.$t': 'line'
+                // },
+                colors: {
+                    'gsx$mendem2020.$t': 'rgba(60, 72, 132, 1)',
+                    'gsx$mendem2016.$t': 'rgba(60, 72, 132, .5)',
+                    'gsx$menrep2020.$t': 'rgba(140, 34, 18, 1)',
+                    'gsx$menrep2016.$t': 'rgba(140, 34, 18, .5)',
+                    'gsx$menuaf2020.$t': 'rgba(230, 164, 90, 1)',
+                    'gsx$menuaf2016.$t': 'rgba(230, 164, 90, .5)',
+
+                }
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    // tick: {
+                    //     rotate: 0,
+                    //     multiline: false,
+                    //     culling: {
+                    //         max: 1
+                    //     }
+                    // },
+                    tick: {
+                        count: 2
+                    },
+                    padding: {
+                        right: 2
+                    }
+                },
+                y: {
+                    tick: {
+                        format: d3.format(','),
+                        //values: [100000, 200000, 300000, 400000, 500000, 600000]
+                    },
+                    max: 600000
+                }
+            },
+            grid: {
+                x: {
+                    show: false
+                },
+                y: {
+                    show: false
+                }
+            },
+            // point: {
+            //     r: 1
+            // },
+            regions: [
+                { axis: 'y', start: 370247, end: 374247, opacity: 1, class: 'dem-women-2016' },
+                { axis: 'y', start: 481245, end: 485245, opacity: 1, class: 'rep-women-2016' },
+                { axis: 'y', start: 461858, end: 465858, opacity: 1, class: 'uaf-women-2016' },
+            ]
+        })
+    });
+    </script>
+    <!-- <div class="row">
+        <div class="large-12 columns">
+            <h2 class="section-heading">COVID-19 in Colorado</h2>
+        </div>
+    </div>
+    <div id="small-charts-desktop">
+        <div class="row">
+            <div class="large-12 columns">
+                <div class="large-2 medium-2Half small-12 columns">
+                    <p class="small-chart-header small-chart-header-cases">Avg daily<br>cases</p>
+                    <div id="daily-cases-chart-small"></div>
+                </div>
+                <div class="large-2 medium-2Half small-12 columns">
+                    <p class="small-chart-header small-chart-header-hospitalized">Currently<br>hospitalized</p>
+                    <div id="current-hospitalizations-chart-small"></div>
+                </div>
+                <div class="large-2 medium-2Half small-12 columns">
+                    <p class="small-chart-header small-chart-header-deaths">Avg daily<br>deaths</p>
+                    <div id="daily-deaths-chart-small"></div>
+                </div>
+                <div class="large-2 medium-2Half small-12 columns">
+                    <p class="small-chart-header small-chart-header-positivity">Avg positive<br>tests</p>
+                    <div id="positivity-rate-chart-small"></div>
+                </div>
+                <div class="large-2 medium-2Half small-12 columns">
+                    <p class="small-chart-header small-chart-header-tests">Avg tests<br>per 100K</p>
+                    <div id="testing-rate-chart-small"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="small-charts-mobile">
+        <div class="row">
+            <div class="large-12 columns">
+                <div class="large-6 medium-6 small-6 columns">
+                    <p class="small-chart-header small-chart-header-cases">Avg daily<br>cases</p>
+                    <div id="daily-cases-chart-small-mobile"></div>
+                </div>
+                <div class="large-6 medium-6 small-6 columns">
+                    <p class="small-chart-header small-chart-header-hospitalized">Currently<br>hospitalized</p>
+                    <div id="current-hospitalizations-chart-small-mobile"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <div class="large-6 medium-6 small-6 columns">
+                    <p class="small-chart-header small-chart-header-deaths">Avg daily<br>deaths</p>
+                    <div id="daily-deaths-chart-small-mobile"></div>
+                </div>
+                <div class="large-6 medium-6 small-6 columns">
+                    <p class="small-chart-header small-chart-header-positivity">Avg positive<br>tests</p>
+                    <div id="positivity-rate-chart-small-mobile"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <div class="large-6 medium-6 small-6 columns">
+                    <p class="small-chart-header small-chart-header-tests">Avg tests<br>per 100K</p>
+                    <div id="testing-rate-chart-small-mobile"></div>
+                </div>
+                <div class="large-6 medium-6 small-6 columns">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-12 columns">
+            <p class="page-footer"><em>Charts updated <span id="updated-time"></span> &bull; <a href="https://www.denverpost.com/2020/03/06/coronavirus-map-colorado/?snapshot-embed" target="_blank">Go to the full COVID-19 data dashboard</a> &bull; Source: Colorado Department of Public Health and Environment</em></p>
+        </div>
+    </div>
+    <div class="no-show">
+        <p class="number" id="total-cases"></p>
+        <p class="number" id="total-covid-deaths"></p>
+        <p class="number" id="total-related-deaths"></p>
+        <p class="number" id="total-hospitalizations"></p>
+    </div> -->
+</body>
+
+</html>
