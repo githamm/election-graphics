@@ -9,18 +9,21 @@
     <link rel="shortcut icon" href="https://extras.mnginteractive.com/live/media/favIcon/dpo/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.14/c3.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css">
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.js"></script>
     <script src="https://extras.denverpost.com/foundation/js/vendor/modernizr.js"></script>
     <script src="https://extras.denverpost.com/app/homicide-report/js/d3.v3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.14/c3.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+    <script src="leaflet.min.ajax.js"></script>
+    <script src="choropleth.js"></script>
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Condensed&display=swap');
 
     html,
     body {
         margin-top: 10px;
-        background-color: #fafafa;
     }
 
     p,
@@ -122,6 +125,82 @@
         font-style: italic;
         float: right;
     }
+
+    #ballot-map {
+        height: 500px;
+        width: 100%;
+        /*width: 893px;
+        height: 600px;
+        margin: 0 auto;*/
+        border: 2px solid silver;
+    }
+
+    .leaflet-popup-content-wrapper {
+        border-radius: 0;
+        background-color: #fafafa;
+        /*max-width: 300px;*/
+        line-height: 100%;
+    }
+
+    .leaflet-container {
+        font-family: 'Roboto', sans-serif;
+        font-size: 1rem;
+    }
+
+    .leaflet-popup-content {
+        /*width: 160px;*/
+    }
+
+    .popup-container {
+        margin-top: -6px;
+        width: 150px;
+    }
+
+    .popup-header {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #525252;
+        margin-bottom: 0;
+        line-height: 20px;
+    }
+
+    table tbody {
+        font-family: 'Roboto', sans-serif;
+        font-size: .8rem;
+        background-color: #fafafa;
+        border: none;
+        margin-bottom: 6px;
+    }
+
+    table tr:nth-of-type(even) {
+        background-color: transparent !important;
+    }
+
+    table tr {
+        border-bottom: .5px solid silver;
+    }
+
+    .dem-badge,
+    .rep-badge,
+    .uaf-badge {
+        color: #000;
+        padding: 1px 5px 1px 5px;
+        font-size: .8rem;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .dem-badge {
+        background-color: rgba(60, 72, 132, .3);
+    }
+
+    .rep-badge {
+        background-color: rgba(140, 34, 18, .3);
+    }
+
+    .uaf-badge {
+        background-color: rgba(230, 164, 90, .3);
+    }
     </style>
 </head>
 
@@ -148,6 +227,12 @@
         </div>
         <p class="source">Source: Colorado Secretary of State</p>
         <p class="source" style="float: left">*For voters registered as Democrat, Republican and unaffiliated</p>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="large-12 columns">
+            <div id="ballot-map"></div>
+        </div>
     </div>
     <script>
     var chartSpreadsheetID = '1UII4X9Qp1UybeN8O-7hY45bWH2zHrkd3qVW3JD7C3RE/1';
@@ -386,6 +471,98 @@
                 { axis: 'y', start: 461858, end: 465858, opacity: 1, class: 'uaf-women-2016' },
             ]
         })
+    });
+
+    /// CHOROPLETH MAP
+    var mapSpreadsheetID = '1UII4X9Qp1UybeN8O-7hY45bWH2zHrkd3qVW3JD7C3RE/2'
+    var mapUrl = 'https://spreadsheets.google.com/feeds/list/' + mapSpreadsheetID + '/public/full?alt=json';
+
+    $.getJSON(mapUrl, function(data) {
+        var output = data.feed.entry;
+
+        var geojsonCounties = {
+            'type': 'FeatureCollection',
+            'features': []
+        };
+
+        for (i = 0; i < output.length; i++) {
+            var coords = JSON.parse(output[i].gsx$geometry.$t);
+
+            geojsonCounties.features.push({
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'MultiPolygon',
+                    'coordinates': coords
+                },
+                'properties': {
+                    'countyName': output[i].gsx$county.$t,
+                    'demVotes': output[i].gsx$dem.$t,
+                    'repVotes': output[i].gsx$rep.$t,
+                    'uafVotes': output[i].gsx$uaf.$t,
+                    'totalVotes': output[i].gsx$grandtotal.$t
+                }
+            });
+        }
+
+        var ballotMap = L.map('ballot-map', {
+            center: [39.001, -105.7821],
+            zoom: 7,
+            minZoom: 5,
+            maxZoom: 10,
+            scrollWheelZoom: false,
+            preferCanvas: true
+        });
+
+        var basemap = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png", {
+            attribution: '&copy; <a href="https://www.openstreetballotMap.org/copyright">OpenStreetMap</a> &copy; <a href="https://cartodb.com/attributions">CartoDB</a>',
+            subdomains: "abcd",
+            maxZoom: 19
+        });
+        basemap.addTo(ballotMap);
+        L.geoJSON(geojsonCounties, {
+            style: function(feature) {
+                var demPct = (feature.properties.demVotes / feature.properties.totalVotes);
+                var repPct = (feature.properties.repVotes / feature.properties.totalVotes);
+                var uafPct = (feature.properties.uafVotes / feature.properties.totalVotes);
+                var fillColor;
+                var fillOpacity;
+                var borderColor;
+                console.log(uafPct);
+                // Blue color ramp (light to dark): ['#f7fbff','#deebf7','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5','#08519c','#08306b']
+                if (Number.isNaN(demPct)) {
+                    fillColor = 'lightgray';
+                    fillOpacity = .5;
+                } else if (demPct > repPct && demPct > uafPct) {
+                    fillColor = 'rgb(60, 72, 132)';
+                    fillOpacity = demPct;
+                } else if (repPct > demPct && repPct > uafPct) {
+                    fillColor = 'rgb(140, 34, 18)';
+                    fillOpacity = 1 - repPct;
+                } else fillColor = 'rgb(230, 164, 90)';
+                fillOpacity = uafPct;
+                return {
+                    color: '#000000',
+                    opacity: .33,
+                    weight: 2,
+                    fillColor: fillColor,
+                    fillOpacity: fillOpacity
+                }
+            },
+
+            onEachFeature: function(feature, layer) {
+                var demPct = Math.round((feature.properties.demVotes / feature.properties.totalVotes) * 100);
+                var repPct = Math.round((feature.properties.repVotes / feature.properties.totalVotes) * 100);
+                var uafPct = Math.round((feature.properties.uafVotes / feature.properties.totalVotes) * 100);
+
+                var popupText;
+                if (Number.isNaN(demPct)) {
+                    popupText = '<h3 class="popup-header">' + feature.properties.countyName + ' County</h3><em>No results yet</em>'
+                } else popupText = '<h3 class="popup-header">' + feature.properties.countyName + ' County</h3><table><tr><th></th><th>Votes</th><th>Pct</th></tr><tr><td><span class="dem-badge">DEM</span></td><td>' + parseFloat(feature.properties.demVotes).toLocaleString() + '</td><td>' + demPct + '%</td></tr><tr><td><span class="rep-badge">REP</span></td><td>' + parseFloat(feature.properties.repVotes).toLocaleString() + '</td><td>' + repPct + '%</td></tr><tr><td><span class="uaf-badge">UAF</span></td><td>' + parseFloat(feature.properties.uafVotes).toLocaleString() + '</td><td>' + uafPct + '%</td></tr><table>';
+                layer.bindPopup(
+                    popupText
+                )
+            }
+        }).addTo(ballotMap)
     });
     </script>
 </body>
