@@ -24,6 +24,7 @@
     html,
     body {
         margin-top: 10px;
+        background-color: #fafafa;
     }
 
     p,
@@ -97,12 +98,25 @@
         text-align: center;
     }
 
+    .section-title {
+        font-family: 'Roboto', sans-serif;
+        font-weight: bold;
+        font-size: 1.8rem;
+        color: #1a1a1a;
+        border-top: 5px solid #1a1a1a;
+        margin-top: 10px;
+    }
+
     .chart-title {
         font-family: 'Roboto Condensed', sans-serif;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        line-height: 1.1;
         font-weight: bold;
         color: #1a1a1a;
         border-bottom: 3px solid #1a1a1a;
         margin: 8px 0 0 0;
+        padding-bottom: 3px;
     }
 
     .chart-subtitle {
@@ -120,10 +134,19 @@
         line-height: 20px;
     }
 
-    .source {
+    .source,
+    .note {
         font-size: .8rem;
         font-style: italic;
+    }
+
+    .source {
         float: right;
+        margin-right: 10px;
+    }
+
+    .note {
+        margin-left: 10px;
     }
 
     #ballot-map {
@@ -201,12 +224,121 @@
     .uaf-badge {
         background-color: rgba(230, 164, 90, .3);
     }
+
+    .c3-bar {
+        stroke: #fafafa !important;
+        stroke-width: 3px !important;
+    }
+
+    #legend-wrapper {
+        display: flex;
+        width: 225px;
+        float: right;
+        margin: 0 10px 8px 0;
+    }
+
+    #legend-wrapper>div {
+        flex: 1;
+        text-align: center;
+    }
+
+    .legend-text {
+        color: #fff;
+        font-weight: bold;
+        font-size: .7rem;
+    }
+
+    #dem-upper {
+        height: 40px;
+        background-color: rgba(60, 72, 132, .75);
+        padding-top: 7px;
+    }
+
+    #dem-mid {
+        height: 40px;
+        background-color: rgba(60, 72, 132, .5);
+    }
+
+    #dem-lower {
+        height: 40px;
+        background-color: rgba(60, 72, 132, .25);
+    }
+
+    #rep-upper {
+        height: 40px;
+        background-color: rgba(140, 34, 18, .75);
+        padding-top: 7px;
+    }
+
+    #rep-mid {
+        height: 40px;
+        background-color: rgba(140, 34, 18, .5);
+    }
+
+    #rep-lower {
+        height: 40px;
+        background-color: rgba(140, 34, 18, .25);
+    }
+
+    #party-legend-wrapper {
+        margin: 0 0 8px 10px;
+        float: left;
+    }
+
+    #dem,
+    #rep,
+    #uaf {
+        height: 15px;
+        width: 15px;
+        margin-bottom: 2px;
+    }
+
+    #dem {
+        background-color: rgba(60, 72, 132, .5);
+    }
+
+    #rep {
+        background-color: rgba(140, 34, 18, .5);
+    }
+
+    #uaf {
+        background-color: rgba(230, 164, 90, .5);
+    }
+
+    .party-legend-text {
+        font-size: .8rem;
+        font-weight: bold;
+        display: block;
+        margin-left: 20px;
+    }
     </style>
 </head>
 
 <body>
     <div class="row">
-        <p class="intro-text">These charts show the number of ballots returned daily by voters registered as Democrat, Republican or unaffiliated. The colored horizontal lines show the total ballots returned by party in 2016 for each group. <em>Hover/tap on circles for details; click/tap legend items to filter chart.</em></p>
+        <div class="large-12 columns">
+            <h2 class="section-title">Ballots by party</h2>
+            <p class="intro-text"><em>Hover/tap on circles for details; click/tap legend items to filter chart.</em></p>
+            <div class="large-7 medium-7 small-12 columns container-outline">
+                <h3 class="center chart-title">Ballots received</h3>
+                <p class="chart-subtitle center">Total ballots<br>received by party</p>
+                <div id="summary-vote-chart"></div>
+            </div>
+            <div class="large-5 medium-5 small-12 columns container-outline">
+                <h3 class="center chart-title">Party turnout</h3>
+                <p class="chart-subtitle center">Ballots received as percentage of total registered in party</p>
+                <div id="summary-vote-pct-chart"></div>
+            </div>
+            <p class="source">Source for all graphics: Colorado Secretary of State</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-12 columns">
+            <h2 class="section-title">Ballots by sex</h2>
+            <p class="intro-text">These charts show the number of ballots returned daily by voters registered as Democrat, Republican or unaffiliated. The colored horizontal lines show the total ballots returned by party in 2016 for each group.</p>
+        </div>
+    </div>
+    <div class="row">
         <div class="large-4 medium-4 columns container-outline">
             <h3 class="center chart-title">All voters</h3>
             <p class="center chart-subtitle">Percent of total 2016<br>turnout* as of today:</p>
@@ -225,16 +357,160 @@
             <p class="center"><span class="percent-callout-dem">DEM <span id="men-voters-pct-dem"></span>%</span> <span class="percent-callout-rep">REP <span id="men-voters-pct-rep"></span>%</span> <span class="percent-callout-uaf">UAF <span id="men-voters-pct-uaf"></span>%</span></p>
             <div id="colorado-men-chart"></div>
         </div>
-        <p class="source">Source: Colorado Secretary of State</p>
-        <p class="source" style="float: left">*For voters registered as Democrat, Republican and unaffiliated</p>
+        <p class="note">*For voters registered as Democrat, Republican and unaffiliated</p>
     </div>
-    <hr>
     <div class="row">
         <div class="large-12 columns">
+            <h2 class="section-title">Ballots by county</h2>
+            <p class="intro-text">This map shows the ballots received by county, colored by the party affiliation that has returned the most ballots. <em>Click county for details.</em></p>
+            <div id="party-legend-wrapper">
+                <div id="dem"><span class="party-legend-text">DEM</span></div>
+                <div id="rep"><span class="party-legend-text">REP</span></div>
+                <div id="uaf"><span class="party-legend-text">UAF</span></div>
+            </div>
+            <div id="legend-wrapper">
+                <div id="dem-upper"><span class="legend-text">+60%</span></div>
+                <div id="dem-mid"></div>
+                <div id="dem-lower"></div>
+                <div id="rep-lower"></div>
+                <div id="rep-mid"></div>
+                <div id="rep-upper"><span class="legend-text">+60%</span></div>
+            </div>
             <div id="ballot-map"></div>
         </div>
     </div>
     <script>
+    var chartSpreadsheetID = '1UII4X9Qp1UybeN8O-7hY45bWH2zHrkd3qVW3JD7C3RE/3';
+    var url = "https://spreadsheets.google.com/feeds/list/" + chartSpreadsheetID + "/public/full?alt=json";
+
+    $.getJSON(url, function(data) {
+        var sheetJson = data.feed.entry;
+
+        /// TOTAL BALLOTS BY PARTY
+        // var otherPartyVotes = Number(sheetJson[0].gsx$grandtotal.$t) - (Number(sheetJson[0].gsx$dem.$t) + Number(sheetJson[0].gsx$rep.$t) + Number(sheetJson[0].gsx$uaf.$t));
+        // var demVotesPct = Math.round((Number(sheetJson[0].gsx$dem.$t / sheetJson[0].gsx$grandtotal.$t) * 100) * 10) / 10;
+        // var repVotesPct = Math.round((Number(sheetJson[0].gsx$rep.$t / sheetJson[0].gsx$grandtotal.$t) * 100) * 10) / 10;
+        // var uafVotesPct = Math.round((Number(sheetJson[0].gsx$uaf.$t / sheetJson[0].gsx$grandtotal.$t) * 100) * 10) / 10;
+        // var otherVotesPct = Math.round((Number(otherPartyVotes / sheetJson[0].gsx$grandtotal.$t) * 100) * 10) / 10;
+        var grandTotal = sheetJson[0].gsx$grandtotal.$t;
+
+        // var data1 = [demVotesPct, repVotesPct, uafVotesPct, otherVotesPct].sort(function(a, b) { return b - a; });
+        var summaryVoteChart = c3.generate({
+            bindto: '#summary-vote-chart',
+            size: {
+                height: 250
+            },
+            padding: {
+                left: 10
+            },
+            data: {
+                json: sheetJson,
+                keys: {
+                    x: 'gsx$voterstatus.$t',
+                    value: ['gsx$dem.$t', 'gsx$uaf.$t', 'gsx$rep.$t', 'gsx$oth.$t']
+                },
+                type: 'bar',
+                labels: {
+                    //format:function (v, id, i, j) { return v + '%'; }
+                    format: function(v, id, i, j) { return Math.round((v / grandTotal) * 100) + '%' }
+                },
+                names: {
+                    'gsx$dem.$t': 'Democrat',
+                    'gsx$rep.$t': 'Republican',
+                    'gsx$uaf.$t': 'Unaffiliated',
+                    'gsx$oth.$t': 'Other'
+                },
+                colors: {
+                    'gsx$dem.$t': 'rgba(60, 72, 132, .66)',
+                    'gsx$rep.$t': 'rgba(140, 34, 18, .66)',
+                    'gsx$uaf.$t': 'rgba(230, 164, 90, .66)',
+                    'gsx$oth.$t': 'rgba(120, 60, 133, .66)'
+                },
+            },
+            axis: {
+                rotated: true,
+                x: {
+                    show: false,
+                    type: 'category'
+                },
+                y: {
+                    tick: {
+                        //format: d3.format('%'),
+                        format: d3.format(','),
+                        values: [100000, 200000, 300000, 400000, 500000, 600000]
+                    },
+                    show: true
+                }
+            },
+            grid: {
+                x: {
+                    show: false
+                },
+                y: {
+                    show: true
+                }
+            }
+        });
+
+        /// BALLOTS BY PERCENTAGE OF PARTY REGISTERED
+        var summaryVoteChart = c3.generate({
+            bindto: '#summary-vote-pct-chart',
+            size: {
+                height: 250
+            },
+            // padding: {
+            //     left: 10
+            // },
+            data: {
+                json: sheetJson,
+                keys: {
+                    x: 'gsx$voterstatus.$t',
+                    value: ['gsx$dempctvoted.$t', 'gsx$uafpctvoted.$t', 'gsx$reppctvoted.$t', 'gsx$allpctvoted.$t']
+                },
+                type: 'bar',
+                // labels: {
+                //     //format:function (v, id, i, j) { return v + '%'; }
+                //     format: function(v, id, i, j) { return Math.round((v / grandTotal) * 100) + '%' }
+                // },
+                names: {
+                    'gsx$dempctvoted.$t': 'Democrat',
+                    'gsx$reppctvoted.$t': 'Republican',
+                    'gsx$uafpctvoted.$t': 'Unaffiliated',
+                    'gsx$allpctvoted.$t': 'All voters'
+                },
+                colors: {
+                    'gsx$dempctvoted.$t': 'rgba(60, 72, 132, .66)',
+                    'gsx$reppctvoted.$t': 'rgba(140, 34, 18, .66)',
+                    'gsx$uafpctvoted.$t': 'rgba(230, 164, 90, .66)',
+                    'gsx$allpctvoted.$t': 'rgba(0, 0, 0, .66)'
+                },
+            },
+            axis: {
+                rotated: false,
+                x: {
+                    show: false,
+                    type: 'category'
+                },
+                y: {
+                    tick: {
+                        format: d3.format('%'),
+                        //format: d3.format(',')
+                    },
+                    show: true
+                }
+            },
+            grid: {
+                x: {
+                    show: false
+                },
+                y: {
+                    show: true
+                }
+            }
+        });
+    });
+
+    /// VOTER BY SEX CHARTS    
     var chartSpreadsheetID = '1UII4X9Qp1UybeN8O-7hY45bWH2zHrkd3qVW3JD7C3RE/1';
     var url = "https://spreadsheets.google.com/feeds/list/" + chartSpreadsheetID + "/public/full?alt=json";
 
@@ -527,25 +803,29 @@
                 var fillColor;
                 var fillOpacity;
                 var borderColor;
-                console.log(uafPct);
                 // Blue color ramp (light to dark): ['#f7fbff','#deebf7','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5','#08519c','#08306b']
                 if (Number.isNaN(demPct)) {
-                    fillColor = 'lightgray';
-                    fillOpacity = .5;
-                } else if (demPct > repPct && demPct > uafPct) {
-                    fillColor = 'rgb(60, 72, 132)';
-                    fillOpacity = demPct;
-                } else if (repPct > demPct && repPct > uafPct) {
-                    fillColor = 'rgb(140, 34, 18)';
-                    fillOpacity = 1 - repPct;
-                } else fillColor = 'rgb(230, 164, 90)';
-                fillOpacity = uafPct;
+                    fillColor = 'gray';
+                    fillOpacity = .75;
+                } else if (demPct > repPct && demPct > uafPct && demPct > .6) {
+                    fillColor = 'rgba(60, 72, 132, .75)';
+                } else if (demPct > repPct && demPct > uafPct && demPct > .4) {
+                    fillColor = 'rgba(60, 72, 132, .5)';
+                } else if (demPct > repPct && demPct > uafPct && demPct < .4) {
+                    fillColor = 'rgba(60, 72, 132, .25)';
+                } else if (repPct > demPct && repPct > uafPct && repPct > .6) {
+                    fillColor = 'rgba(140, 34, 18, .75)';
+                } else if (repPct > demPct && repPct > uafPct && repPct > .4) {
+                    fillColor = 'rgba(140, 34, 18, .5)';
+                } else if (repPct > demPct && repPct > uafPct && repPct < .4) {
+                    fillColor = 'rgba(140, 34, 18, .25)';
+                } else fillColor = 'rgba(230, 164, 90, .5)';
                 return {
                     color: '#000000',
                     opacity: .33,
                     weight: 2,
                     fillColor: fillColor,
-                    fillOpacity: fillOpacity
+                    fillOpacity: 1
                 }
             },
 
@@ -556,7 +836,7 @@
 
                 var popupText;
                 if (Number.isNaN(demPct)) {
-                    popupText = '<h3 class="popup-header">' + feature.properties.countyName + ' County</h3><em>No results yet</em>'
+                    popupText = '<h3 class="popup-header">' + feature.properties.countyName + ' County</h3><br><em>No data</em>'
                 } else popupText = '<h3 class="popup-header">' + feature.properties.countyName + ' County</h3><table><tr><th></th><th>Votes</th><th>Pct</th></tr><tr><td><span class="dem-badge">DEM</span></td><td>' + parseFloat(feature.properties.demVotes).toLocaleString() + '</td><td>' + demPct + '%</td></tr><tr><td><span class="rep-badge">REP</span></td><td>' + parseFloat(feature.properties.repVotes).toLocaleString() + '</td><td>' + repPct + '%</td></tr><tr><td><span class="uaf-badge">UAF</span></td><td>' + parseFloat(feature.properties.uafVotes).toLocaleString() + '</td><td>' + uafPct + '%</td></tr><table>';
                 layer.bindPopup(
                     popupText
