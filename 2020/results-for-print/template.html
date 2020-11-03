@@ -38,6 +38,7 @@
         border-top: 1px solid #1a1a1a;
         margin-top: 3px;
         padding-top: 1px;
+        color: purple;
     }
 
     #col-1 {
@@ -67,6 +68,7 @@
         text-align: right;
         font-family: 'Abel';
         font-size: 8px;
+        color: orange;
     }
 
     #container {
@@ -84,29 +86,47 @@
         {{/each}} -->
     <script id="myTemplate" type="text/x-handlebars-template">
         <div id="container">
-        {{#each results}}
-            {{#if officename}}
-                <span class="race-title">{{this.officename}}</span>
-            {{/if}}
-            {{#if seatname}}
-                <span class="district-title">{{this.seatname}}</span>
-            {{/if}}
+            {{#each results}}
+                {{#if officename}}
+                    <span class="race-title">{{this.officename}}</span>
+                {{/if}}
+                {{#if seatname}}
+                    <div class="district-title">{{this.seatname}} <span style="font-size:6px;font-style:italic;font-weight:normal;color:green;float:right;padding-top:1px">{{precinctreportingpct}}% ballots counted</span></div>
+                {{/if}}
             <div id="container">
                 {{#if winner}}
-                <span id="col-1">&#10004;</span>
+                    <span id="col-1">&#10004;</span>
                 {{else}}
-                <span id="col-1">&nbsp;&nbsp;&nbsp;</span>
+                    <span id="col-1">&nbsp;&nbsp;&nbsp;</span>
                 {{/if}}
                 {{#ifEquals party "Dem"}}
-                <div id="col-2" style="width:6px;height:6px;background-color:#009ac9;margin-top:2px;display:inline-block"></div>
-                {{else}}
-                <div id="col-2" style="width:6px;height:6px;background-color:#f04e41;margin-top:2px;display:inline-block"></div>
+                    <div id="col-2" style="width:6px;height:6px;background-color:#009ac9;margin-top:2px;display:inline-block"></div>
+                {{/ifEquals}}
+                {{#ifEquals party "GOP"}}
+                    <div id="col-2" style="width:6px;height:6px;background-color:#f04e41;margin-top:2px;display:inline-block"></div>
+                {{/ifEquals}}
+                {{#ifEquals party "Lib"}}
+                    <div id="col-2" style="width:6px;height:6px;background-color:#faa61a;margin-top:2px;display:inline-block"></div>
+                {{/ifEquals}}
+                {{#ifEquals party "Una"}}
+                    <div id="col-2" style="width:6px;height:6px;background-color:#a7a9ac;margin-top:2px;display:inline-block"></div>
+                {{/ifEquals}}
+                {{#ifEquals party "Uty"}}
+                    <div id="col-2" style="width:6px;height:6px;background-color:#c48fc0;margin-top:2px;display:inline-block"></div>
+                {{/ifEquals}}
+                {{#ifEquals party "NP"}}
+                {{/ifEquals}}
+                {{#ifEquals party "Yes"}}
+                    <div id="col-2" style="width:6px;height:6px;background-color:#D0F78F;margin-top:2px;display:inline-block"></div>
+                {{/ifEquals}}
+                {{#ifEquals party "No"}}
+                    <div id="col-2" style="width:6px;height:6px;background-color:#f8a891;margin-top:2px;display:inline-block"></div>
                 {{/ifEquals}}
                 <span id="col-3">{{this.firstname}} {{this.lastname}}</span>
                 <span id="col-4">{{this.votepercent}}</span>
             </div>
-        {{/each}}
-    </div>
+            {{/each}}
+        </div>
     </script>
     <script type="text/javascript">
     var tmpHtml = document.getElementById("myTemplate").innerHTML;

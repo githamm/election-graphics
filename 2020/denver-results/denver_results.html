@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="distribution" content="global" />
+    <meta name="robots" content="index, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Denver 2020 Election Results</title>
+    <link rel="shortcut icon" href="http://extras.mnginteractive.com/live/media/favIcon/dpo/favicon.ico" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed:700|Roboto+Mono" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://extras.denverpost.com/foundation/css/foundation.css" />
+    <script src="https://extras.denverpost.com/foundation/js/vendor/jquery.js "></script>
+    <script src="https://extras.denverpost.com/foundation/js/vendor/modernizr.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #fafafa;
+        }
+        table {
+            width: 100%;
+            font-family: 'Roboto', sans-serif;
+            border-collapse: collapse;
+        }
+
+        tr, td {
+            background-color: #fafafa;
+            border-bottom: 1px solid #ddd;
+        }
+
+        thead tr th {
+            font-weight: bold;
+        }
+
+        th {
+            background-color: #e9e9e9;
+        }
+
+        .race-title {
+            font-size: 1.5rem;
+            font-family: 'Roboto Condensed', sans-serif;
+            line-height: 25px;
+        }
+    </style>
+    <script type='text/javascript'>
+    //Write a function that allows us to add commas to raw numbers in spreadsheet for display.  2413 becomes 2,413.
+    function addCommas(nStr) {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    }
+
+    var chartSpreadsheetID = '1KxWiRagODJMPw4Qlwav_Fxqt_5eDVZ-skVfiNCsCr7M/1';
+    var url = "https://spreadsheets.google.com/feeds/list/" + chartSpreadsheetID + "/public/full?alt=json";
+
+    $.getJSON(url, function(data) {
+    var sheetJson = data.feed.entry;
+        console.log(data);
+    // SCHOOLS
+    //this will be executed after we "fetch" the contents of a spreadsheet. The json parameter will hold our spreadsheet's data
+    //function displayContentSchools(json) {
+        //start an html table and write out our headers.  Using <td> tags so it isn't bold and centered, which is the <th> default.
+        //var pre_html = '<table id = "denver-election-results"><tr><td>School district</td><td>Status</td></thead><tbody>';
+        //same as above but gets rid of column headers
+        // var pre_html = '<table id = "denver-election-results"><tbody><tr><td><em>Updated at ' + sheetJson[0].gsx$updated.$t + '</em></td></tr>';
+        //Create an empty string to hold the HTML. We will put table data here.
+        var table1_html,
+            table2_html,
+            table3_html,
+            table4_html,
+            table5_html,
+            table6_html,
+            table7_html,
+            table8_html,
+            table9_html,
+            table10_html,
+            table11_html,
+            table12_html;
+        //After we grab the table, close the HTML table.
+        // var post_html = '</tbody></table>'
+        //figure out how many rows our spreadsheet has
+        var len = sheetJson.length;
+
+        //loop through the spreadsheet, gathering data
+        for (var i = 0; i < len; i++) {
+        //for each row, add the following to actual HTML, grabbing it as a list, and then joining the list together as one long string.
+        //Uses HTML for table cells, and then grabs attributes from the spreadsheet, using appropriate syntax. Enter your table header in the Google spreadsheet between            
+        //the gsx$ and .$t.
+        table1_html = [
+            '<h2 class="race-title">2A: Climate funding sales tax</h2><table id="denver-election-results"><thead><tr><th></th><th>Pct</th><th>Votes</th></tr></thead><tbody><tr><td>' +
+            sheetJson[0].gsx$ballot2aname.$t +
+            '</td><td>' +
+            sheetJson[0].gsx$ballot2apct.$t +
+            '%</td><td>' +
+            sheetJson[0].gsx$ballot2avote.$t +
+            '</td></tr><tr><td>' +
+            sheetJson[1].gsx$ballot2aname.$t +
+            '</td><td>' +
+            sheetJson[1].gsx$ballot2apct.$t +
+            '%</td><td>' +
+            sheetJson[1].gsx$ballot2avote.$t +
+            '</td></tr></tbody></table>'
+        ];
+        table2_html = [
+            '<h2 class="race-title">2B: Funding for homelessness sales tax</h2><table id="denver-election-results"><thead><tr><th></th><th>Pct</th><th>Votes</th></tr></thead><tbody><tr><td>' +
+            sheetJson[0].gsx$ballot2bname.$t +
+            '</td><td>' +
+            sheetJson[0].gsx$ballot2bpct.$t +
+            '%</td><td>' +
+            sheetJson[0].gsx$ballot2bvote.$t +
+            '</td></tr><tr><td>' +
+            sheetJson[1].gsx$ballot2bname.$t +
+            '</td><td>' +
+            sheetJson[1].gsx$ballot2bpct.$t +
+            '%</td><td>' +
+            sheetJson[1].gsx$ballot2bvote.$t +
+            '</td></tr></tbody></table>'
+        ];
+        table3_html = [
+            '<h2 class="race-title">2C: Denver City Council professional services</h2><table id="denver-election-results"><thead><tr><th></th><th>Pct</th><th>Votes</th></tr></thead><tbody><tr><td>' +
+            sheetJson[0].gsx$ballot2cname.$t +
+            '</td><td>' +
+            sheetJson[0].gsx$ballot2cpct.$t +
+            '%</td><td>' +
+            sheetJson[0].gsx$ballot2cvote.$t +
+            '</td></tr><tr><td>' +
+            sheetJson[1].gsx$ballot2cname.$t +
+            '</td><td>' +
+            sheetJson[1].gsx$ballot2cpct.$t +
+            '%</td><td>' +
+            sheetJson[1].gsx$ballot2cvote.$t +
+            '</td></tr></tbody></table>'
+        ];
+        table4_html = [
+            '<h2 class="race-title">2D: Creation of a Department of Transportation and Infrastructure advisory board</h2><table id="denver-election-results"><thead><tr><th></th><th>Pct</th><th>Votes</th></tr></thead><tbody><tr><td>' +
+            sheetJson[0].gsx$ballot2dname.$t +
+            '</td><td>' +
+            sheetJson[0].gsx$ballot2dpct.$t +
+            '%</td><td>' +
+            sheetJson[0].gsx$ballot2dvote.$t +
+            '</td></tr><tr><td>' +
+            sheetJson[1].gsx$ballot2dname.$t +
+            '</td><td>' +
+            sheetJson[1].gsx$ballot2dpct.$t +
+            '%</td><td>' +
+            sheetJson[1].gsx$ballot2dvote.$t +
+            '</td></tr></tbody></table>'
+        ];
+        table5_html = [
+            '<h2 class="race-title">2E: Council approval over mayoral appointees</h2><table id="denver-election-results"><thead><tr><th></th><th>Pct</th><th>Votes</th></tr></thead><tbody><tr><td>' +
+            sheetJson[0].gsx$ballot2ename.$t +
+            '</td><td>' +
+            sheetJson[0].gsx$ballot2epct.$t +
+            '%</td><td>' +
+            sheetJson[0].gsx$ballot2evote.$t +
+            '</td></tr><tr><td>' +
+            sheetJson[1].gsx$ballot2ename.$t +
+            '</td><td>' +
+            sheetJson[1].gsx$ballot2epct.$t +
+            '%</td><td>' +
+            sheetJson[1].gsx$ballot2evote.$t +
+            '</td></tr></tbody></table>'
+        ];
+        table6_html = [
+            '<h2 class="race-title">2F: Denver City Council special meetings</h2><table id="denver-election-results"><thead><tr><th></th><th>Pct</th><th>Votes</th></tr></thead><tbody><tr><td>' +
+            sheetJson[0].gsx$ballot2fname.$t +
+            '</td><td>' +
+            sheetJson[0].gsx$ballot2fpct.$t +
+            '%</td><td>' +
+            sheetJson[0].gsx$ballot2fvote.$t +
+            '</td></tr><tr><td>' +
+            sheetJson[1].gsx$ballot2fname.$t +
+            '</td><td>' +
+            sheetJson[1].gsx$ballot2fpct.$t +
+            '%</td><td>' +
+            sheetJson[1].gsx$ballot2fvote.$t +
+            '</td></tr></tbody></table>'
+        ];
+        table7_html = [
+            '<h2 class="race-title">2G: Expanding Denver City Council’s budget authority</h2><table id="denver-election-results"><thead><tr><th></th><th>Pct</th><th>Votes</th></tr></thead><tbody><tr><td>' +
+            sheetJson[0].gsx$ballot2gname.$t +
+            '</td><td>' +
+            sheetJson[0].gsx$ballot2gpct.$t +
+            '%</td><td>' +
+            sheetJson[0].gsx$ballot2gvote.$t +
+            '</td></tr><tr><td>' +
+            sheetJson[1].gsx$ballot2gname.$t +
+            '</td><td>' +
+            sheetJson[1].gsx$ballot2gpct.$t +
+            '%</td><td>' +
+            sheetJson[1].gsx$ballot2gvote.$t +
+            '</td></tr></tbody></table>'
+        ];
+        table8_html = [
+            '<h2 class="race-title">2H: Municipal broadband opt-out</h2><table id="denver-election-results"><thead><tr><th></th><th>Pct</th><th>Votes</th></tr></thead><tbody><tr><td>' +
+            sheetJson[0].gsx$ballot2hname.$t +
+            '</td><td>' +
+            sheetJson[0].gsx$ballot2hpct.$t +
+            '%</td><td>' +
+            sheetJson[0].gsx$ballot2hvote.$t +
+            '</td></tr><tr><td>' +
+            sheetJson[1].gsx$ballot2hname.$t +
+            '</td><td>' +
+            sheetJson[1].gsx$ballot2hpct.$t +
+            '%</td><td>' +
+            sheetJson[1].gsx$ballot2hvote.$t +
+            '</td></tr></tbody></table>'
+        ];
+        table9_html = [
+            '<h2 class="race-title">2I: Denver County Clerk appointees</h2><table id="denver-election-results"><thead><tr><th></th><th>Pct</th><th>Votes</th></tr></thead><tbody><tr><td>' +
+            sheetJson[0].gsx$ballot2iname.$t +
+            '</td><td>' +
+            sheetJson[0].gsx$ballot2ipct.$t +
+            '%</td><td>' +
+            sheetJson[0].gsx$ballot2ivote.$t +
+            '</td></tr><tr><td>' +
+            sheetJson[1].gsx$ballot2iname.$t +
+            '</td><td>' +
+            sheetJson[1].gsx$ballot2ipct.$t +
+            '%</td><td>' +
+            sheetJson[1].gsx$ballot2ivote.$t +
+            '</td></tr></tbody></table>'
+        ];
+        table10_html = [
+            '<h2 class="race-title">2J: Repeal Denver’s pit bull ban</h2><table id="denver-election-results"><thead><tr><th></th><th>Pct</th><th>Votes</th></tr></thead><tbody><tr><td>' +
+            sheetJson[0].gsx$ballot2jname.$t +
+            '</td><td>' +
+            sheetJson[0].gsx$ballot2jpct.$t +
+            '%</td><td>' +
+            sheetJson[0].gsx$ballot2jvote.$t +
+            '</td></tr><tr><td>' +
+            sheetJson[1].gsx$ballot2jname.$t +
+            '</td><td>' +
+            sheetJson[1].gsx$ballot2jpct.$t +
+            '%</td><td>' +
+            sheetJson[1].gsx$ballot2jvote.$t +
+            '</td></tr></tbody></table>'
+        ];
+        table11_html = [
+            '<h2 class="race-title">4A: Denver Public Schools bond measure</h2><table id="denver-election-results"><thead><tr><th></th><th>Pct</th><th>Votes</th></tr></thead><tbody><tr><td>' +
+            sheetJson[0].gsx$ballot4aname.$t +
+            '</td><td>' +
+            sheetJson[0].gsx$ballot4apct.$t +
+            '%</td><td>' +
+            sheetJson[0].gsx$ballot4avote.$t +
+            '</td></tr><tr><td>' +
+            sheetJson[1].gsx$ballot4aname.$t +
+            '</td><td>' +
+            sheetJson[1].gsx$ballot4apct.$t +
+            '%</td><td>' +
+            sheetJson[1].gsx$ballot4avote.$t +
+            '</td></tr></tbody></table>'
+        ];
+        table12_html = [
+            '<h2 class="race-title">4B: Denver Public Schools mill levy measure</h2><table id="denver-election-results"><thead><tr><th></th><th>Pct</th><th>Votes</th></tr></thead><tbody><tr><td>' +
+            sheetJson[0].gsx$ballot4bname.$t +
+            '</td><td>' +
+            sheetJson[0].gsx$ballot4bpct.$t +
+            '%</td><td>' +
+            sheetJson[0].gsx$ballot4bvote.$t +
+            '</td></tr><tr><td>' +
+            sheetJson[1].gsx$ballot4bname.$t +
+            '</td><td>' +
+            sheetJson[1].gsx$ballot4bpct.$t +
+            '%</td><td>' +
+            sheetJson[1].gsx$ballot4bvote.$t +
+            '</td></tr></tbody></table>'
+        ];
+    }
+        //put all three of our HTML strings into our div we made at the top of the page
+        document.getElementById('mayor-table').innerHTML = '<p style="margin-bottom:5px;font-style:italic">Updated at ' + sheetJson[0].gsx$updated.$t + '</p><p style="font-style:italic;font-weight:bold;margin-bottom:-5px">&#10004; denotes winner</p><hr>' + table1_html + table2_html + table3_html + table4_html + table5_html + table6_html + table7_html + table8_html + table9_html + table10_html + table11_html + table12_html;
+    //}
+});
+    </script>
+</head>
+
+<body>
+    <div class="row">
+        <div class="large-8 large-centered medium-10 medium-centered columns">
+            <div id="mayor-table">
+                <!-- Grab the data from our google spreadsheet, using the callback to call the function we just created -->
+                <!-- <script src="https://spreadsheets.google.com/feeds/list/1KxWiRagODJMPw4Qlwav_Fxqt_5eDVZ-skVfiNCsCr7M/od6/public/values?alt=json-in-script&amp;callback=displayContentSchools " type="text/javascript "></script> -->
+            </div>
+        </div>
+    </div>
+    <script src="http://extras.denverpost.com/foundation/js/foundation.min.js "></script>
+    <script>
+    $(document).foundation();
+    </script>
+    <footer>
+    </footer>
+</body>
+
+</html>
