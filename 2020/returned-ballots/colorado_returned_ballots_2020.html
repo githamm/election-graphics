@@ -340,12 +340,19 @@
         /*border: 0px solid silver !important;*/
         font-family: 'Roboto', Helvetica, sans-serif;
         font-size: .95rem;
+    }
+
+    .updated {
+        font-style: italic;
+        margin: 0 0 -4px 0;
+    }
     </style>
 </head>
 
 <body>
     <div class="row">
         <div class="large-12 columns">
+            <span id="updated"></span>
             <h2 class="section-title">Ballots by party</h2>
             <p class="intro-text"><em>Hover/tap on bars for details; click/tap legend items to filter chart.</em></p>
             <div class="large-7 medium-7 small-12 columns container-outline">
@@ -438,6 +445,8 @@
 
     $.getJSON(url, function(data) {
         var sheetJson = data.feed.entry;
+        var updated = sheetJson[0].gsx$updated.$t;
+        document.getElementById('updated').innerHTML = '<p class="updated">Ballots received through ' + sheetJson[0].gsx$updated.$t + '</p>';
 
         /// TOTAL BALLOTS BY PARTY
         // var otherPartyVotes = Number(sheetJson[0].gsx$grandtotal.$t) - (Number(sheetJson[0].gsx$dem.$t) + Number(sheetJson[0].gsx$rep.$t) + Number(sheetJson[0].gsx$uaf.$t));
@@ -460,7 +469,7 @@
                 json: sheetJson,
                 keys: {
                     x: 'gsx$voterstatus.$t',
-                    value: ['gsx$dem.$t', 'gsx$uaf.$t', 'gsx$rep.$t', 'gsx$oth.$t']
+                    value: ['gsx$dem.$t', 'gsx$rep.$t', 'gsx$uaf.$t', 'gsx$oth.$t']
                 },
                 type: 'bar',
                 labels: {
@@ -518,7 +527,7 @@
                 json: sheetJson,
                 keys: {
                     x: 'gsx$voterstatus.$t',
-                    value: ['gsx$dempctvoted.$t', 'gsx$uafpctvoted.$t', 'gsx$reppctvoted.$t', 'gsx$allpctvoted.$t']
+                    value: ['gsx$allpctvoted.$t', 'gsx$dempctvoted.$t', 'gsx$reppctvoted.$t', 'gsx$uafpctvoted.$t']
                 },
                 type: 'bar',
                 // labels: {
