@@ -114,7 +114,7 @@
     .chart-title {
         font-family: 'Roboto Condensed', sans-serif;
         text-transform: uppercase;
-        font-size: 1.2rem;
+        font-size: 1.5rem;
         line-height: 1.1;
         font-weight: bold;
         color: #1a1a1a;
@@ -446,7 +446,7 @@
     $.getJSON(url, function(data) {
         var sheetJson = data.feed.entry;
         var updated = sheetJson[0].gsx$updated.$t;
-        document.getElementById('updated').innerHTML = '<p class="updated">Ballots received through ' + sheetJson[0].gsx$updated.$t + '</p>';
+        document.getElementById('updated').innerHTML = '<p class="updated">For ballots received through ' + sheetJson[0].gsx$updated.$t + '</p>';
 
         /// TOTAL BALLOTS BY PARTY
         // var otherPartyVotes = Number(sheetJson[0].gsx$grandtotal.$t) - (Number(sheetJson[0].gsx$dem.$t) + Number(sheetJson[0].gsx$rep.$t) + Number(sheetJson[0].gsx$uaf.$t));
@@ -499,7 +499,7 @@
                     tick: {
                         //format: d3.format('%'),
                         format: d3.format(','),
-                        values: [100000, 200000, 300000, 400000, 500000, 600000]
+                        //values: [100000, 200000, 300000, 400000, 500000, 600000]
                     },
                     show: true
                 }
