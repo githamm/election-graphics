@@ -1,0 +1,386 @@
+{
+    "amendment_78": [
+    {
+        "time_updated": "9:17 a.m. Nov. 4",
+        "race_category": "Colorado ballot measures",
+        "race_name": "Amendment 78",
+        "race_description": "Custodial Fund Appropriations Initiative",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "43.65",
+            "count": "584,412"
+        },
+        {
+            "winner": "\u2714",
+            "candidate": "No",
+            "percentage": "56.35",
+            "count": "754,383"
+        }]
+    }],
+    "proposition_119": [
+    {
+        "race_name": "Proposition 119",
+        "race_description": "Creation of Out-of-School Education Program and Marijuana Sales Tax Increase Initiative",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "45.59",
+            "count": "621,488"
+        },
+        {
+            "winner": "\u2714",
+            "candidate": "No",
+            "percentage": "54.41",
+            "count": "741,835"
+        }]
+    }],
+    "proposition_120": [
+    {
+        "race_name": "Proposition 120",
+        "race_description": "Reduce Property Tax Rates and Retain $25 Million in TABOR Surplus Revenue Initiative",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "43.38",
+            "count": "586,087"
+        },
+        {
+            "winner": "\u2714",
+            "candidate": "No",
+            "percentage": "56.62",
+            "count": "765,073"
+        }]
+    }],
+    "question_2a": [
+    {
+        "race_category": "Denver ballot measures",
+        "race_name": "Question 2A",
+        "race_description": "Denver Facilities System Bonds",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "63.72",
+            "count": "58,730"
+        },
+        {
+            "winner": "",
+            "candidate": "No",
+            "percentage": "36.28",
+            "count": "33,436"
+        }]
+    }],
+    "question_2b": [
+    {
+        "race_name": "Question 2B",
+        "race_description": "Denver Housing and Sheltering System Bonds",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "61.59",
+            "count": "56,710"
+        },
+        {
+            "winner": "",
+            "candidate": "No",
+            "percentage": "38.41",
+            "count": "35,363"
+        }]
+    }],
+    "question_2c": [
+    {
+        "race_name": "Question 2C",
+        "race_description": "Denver Transportation and Mobility System Bonds",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "61.6",
+            "count": "56,737"
+        },
+        {
+            "winner": "",
+            "candidate": "No",
+            "percentage": "38.4",
+            "count": "35,371"
+        }]
+    }],
+    "question_2d": [
+    {
+        "race_name": "Question 2D",
+        "race_description": "Denver Parks and Recreation System Bonds",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "62.49",
+            "count": "57,497"
+        },
+        {
+            "winner": "",
+            "candidate": "No",
+            "percentage": "37.51",
+            "count": "34,511"
+        }]
+    }],
+    "question_2e": [
+    {
+        "race_name": "Question 2E",
+        "race_description": "National Western Campus Facilities System Bonds",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "41.62",
+            "count": "38,256"
+        },
+        {
+            "winner": "",
+            "candidate": "No",
+            "percentage": "58.38",
+            "count": "53,653"
+        }]
+    }],
+    "question_2f": [
+    {
+        "race_name": "Question 2F",
+        "race_description": "Safe and Sound",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "31.35",
+            "count": "28,669"
+        },
+        {
+            "winner": "",
+            "candidate": "No",
+            "percentage": "68.65",
+            "count": "62,782"
+        }]
+    }],
+    "question_2g": [
+    {
+        "race_name": "Question 2G",
+        "race_description": "Fill Future Vacancies for Independent Monitor",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "68.03",
+            "count": "60,681"
+        },
+        {
+            "winner": "",
+            "candidate": "No",
+            "percentage": "31.97",
+            "count": "28,511"
+        }]
+    }],
+    "question_2h": [
+    {
+        "race_name": "Question 2H",
+        "race_description": "Election Day Change",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "74.94",
+            "count": "67,580"
+        },
+        {
+            "winner": "",
+            "candidate": "No",
+            "percentage": "25.06",
+            "count": "22,594"
+        }]
+    }],
+    "ordinance_300": [
+    {
+        "race_name": "Ordinance 300",
+        "race_description": "Pandemic Research Fund",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "40.0",
+            "count": "36,709"
+        },
+        {
+            "winner": "",
+            "candidate": "No",
+            "percentage": "60.0",
+            "count": "55,070"
+        }]
+    }],
+    "ordinance_301": [
+    {
+        "race_name": "Ordinance 301",
+        "race_description": "Parks and Open Space",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "62.99",
+            "count": "57,200"
+        },
+        {
+            "winner": "",
+            "candidate": "No",
+            "percentage": "37.01",
+            "count": "33,608"
+        }]
+    }],
+    "ordinance_302": [
+    {
+        "race_name": "Ordinance 302",
+        "race_description": "Conservation Easement",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "37.48",
+            "count": "33,723"
+        },
+        {
+            "winner": "",
+            "candidate": "No",
+            "percentage": "62.52",
+            "count": "56,243"
+        }]
+    }],
+    "ordinance_303": [
+    {
+        "race_name": "Ordinance 303",
+        "race_description": "Let’s Do Better",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "44.05",
+            "count": "40,277"
+        },
+        {
+            "winner": "",
+            "candidate": "No",
+            "percentage": "55.95",
+            "count": "51,164"
+        }]
+    }],
+    "ordinance_304": [
+    {
+        "race_name": "Ordinance 304",
+        "race_description": "Enough Taxes Already",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Yes",
+            "percentage": "37.17",
+            "count": "33,882"
+        },
+        {
+            "winner": "",
+            "candidate": "No",
+            "percentage": "62.83",
+            "count": "57,267"
+        }]
+    }],
+    "dps_at_large": [
+    {
+        "race_category": "Denver school board",
+        "race_name": "At-large",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Marla Benavides",
+            "percentage": "15.62",
+            "count": "12,070"
+        },
+        {
+            "winner": "",
+            "candidate": "Scott Esserman",
+            "percentage": "39.42",
+            "count": "30,464"
+        },
+        {
+            "winner": "",
+            "candidate": "Vernon Jones Jr. ",
+            "percentage": "22.94",
+            "count": "17,724"
+        },
+        {
+            "winner": "",
+            "candidate": "Jane Shirley",
+            "percentage": "16.21",
+            "count": "12,523"
+        },
+        {
+            "winner": "",
+            "candidate": "Nicky Yollick",
+            "percentage": "5.81",
+            "count": "4,493"
+        }]
+    }],
+    "dps_district_2": [
+    {
+        "race_name": "District 2",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Xóchitl “Sochi” Gaytán",
+            "percentage": "51.05",
+            "count": "4,744"
+        },
+        {
+            "winner": "",
+            "candidate": "Karolina Villagrana",
+            "percentage": "48.95",
+            "count": "4,549"
+        }]
+    }],
+    "dps_district_3": [
+    {
+        "race_name": "District 3",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Mike DeGuire",
+            "percentage": "31.68",
+            "count": "6,068"
+        },
+        {
+            "winner": "",
+            "candidate": "Carrie Olson",
+            "percentage": "68.32",
+            "count": "13,086"
+        }]
+    }],
+    "dps_district_4": [
+    {
+        "race_name": "District 4",
+        "results": [
+        {
+            "winner": "",
+            "candidate": "Gene Fashaw",
+            "percentage": "41.47",
+            "count": "5,493"
+        },
+        {
+            "winner": "",
+            "candidate": "Michelle Quattlebaum",
+            "percentage": "43.04",
+            "count": "5,701"
+        },
+        {
+            "winner": "",
+            "candidate": "José Silva",
+            "percentage": "15.5",
+            "count": "2,053"
+        }]
+    }]
+}

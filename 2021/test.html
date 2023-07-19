@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Handlebars Example - Seasons</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+    html,
+    body {
+        font-family: Helvetica, sans-serif;
+    }
+
+    .race-category {
+        background-color: #000;
+        color: #fff;
+        text-align: center;
+        text-transform: uppercase;
+        padding: 10px;
+        margin: 25px 0 -10px 0;
+    }
+
+    .race-name {
+        /*color:  #cb181d;*/
+        color: #8e0018;
+        font-weight: 400;
+        margin: 25px 0 0 0;
+    }
+
+    .race-description {
+        color: gray;
+        font-size: .9rem;
+        margin: 2px 0 0 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    tr {
+        border-bottom: 1px solid lightgray;
+        height: 25px;
+    }
+
+    td {
+        padding: 6px 0 4px 5px;
+    }
+
+    .colored-bar-container {
+        width: 95%;
+    }
+
+    .colored-bar {
+        background-color: #dadaeb;
+        height: 25px;
+        display: inline-block;
+    }
+
+    .colored-bar-number {
+        padding: 4px 0 0 5px;
+        display: inline-block;
+    }
+
+    .updated {
+        text-align: right;
+        margin-bottom: -16px;
+        font-size: .9rem;
+        font-style: italic;
+        color: gray;
+        padding: 0 10px 0 0;
+    }
+
+    .handlebars {
+        display: none;
+    }
+    </style>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.min.js"> </script>
+    <script>
+    var seasons_data_url = "test_data.json";
+
+    $(document).ready(function() {
+        $.getJSON(seasons_data_url,
+            function(data) {
+                var mysource = $('#seasonslisttemplate').html();
+                var mytemplate = Handlebars.compile(mysource);
+                var myresult = mytemplate(data)
+                $('#seasonslist').html(myresult);
+            });
+    });
+
+    Handlebars.registerHelper('numberFormat', function(value, options) {
+        // Helper parameters
+        var dl = options.hash['decimalLength'] || 2;
+        var ts = options.hash['thousandsSep'] || ',';
+        var ds = options.hash['decimalSep'] || '.';
+
+        // Parse to float
+        var value = parseFloat(value);
+
+        // The regex
+        var re = '\\d(?=(\\d{3})+' + (dl > 0 ? '\\D' : '$') + ')';
+
+        // Formats the number with the decimals
+        var num = value.toFixed(Math.max(0, ~~dl));
+
+        // Returns the formatted number
+        return (ds ? num.replace('.', ds) : num).replace(new RegExp(re, 'g'), '$&' + ts);
+    });
+    </script>
+</head>
+
+<body>
+    <h2>Handlebars</h2>
+    <div id="seasonslist">Seasons list goes here...</div>
+    <div id="seasonslisttemplate" class="handlebars">
+        <!-- <ul>
+            {{#Contests}}
+            <li>{{C}}</li>
+            <ul>
+              <li>{{CH.[0]}}: {{PCT.[0]}}</li>
+              <li>{{CH.[1]}}: {{PCT.[1]}}</li>
+            </ul>
+            {{/Contests}}
+        </ul> -->
+        {{#Contests}}
+        <h3 class="race-name">{{C}}</h3>
+        <table>
+              {{#each CH}}
+                <tr>
+                    <td><p style="width:20%">{{this}}</p></td>
+                    <!-- <td style="width:60%">
+                        <div class="colored-bar-container">
+                            <div class="colored-bar" style="width:{{PCT}}%"><span class="colored-bar-number">{{numberFormat PCT decimalLength="2"}}%</span></div>
+                        </div>
+                    </td>
+                    <td style="width:20%">{{numberFormat V thousandsSep="," decimalLength="0"}}</td> -->
+                </tr>
+                {{/each}}
+                <!-- <tr>
+                    <td style="width:20%">{{CH.[1]}}</td>
+                    <td style="width:60%">
+                        <div class="colored-bar-container">
+                            <div class="colored-bar" style="width:{{PCT.[1]}}%"><span class="colored-bar-number">{{numberFormat PCT.[1] decimalLength="2"}}%</span></div>
+                        </div>
+                    </td>
+                    <td style="width:20%">{{numberFormat V.[1] thousandsSep="," decimalLength="0"}}</td>
+                </tr> -->
+
+                <!-- <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td> -->
+        </table>
+        {{/Contests}}
+    </div>
+</body>
+
+</html>

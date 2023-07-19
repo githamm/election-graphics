@@ -1,0 +1,31 @@
+{
+    "Contests": [
+    {
+        "race_name": "Amendment 78",
+        "candidate_results": [
+        {
+            "candidate_name": "A",
+            "vote_pct": 47.988329,
+            "vote_count": 1511
+        },
+        {
+            "candidate_name": "B",
+            "vote_pct": 53.22938,
+            "vote_count": 2319
+        }]
+    },
+    {
+        "race_name": "Proposition 119",
+        "candidate_results": [
+        {
+            "candidate_name": "Yes/For",
+            "vote_pct": 49.1111,
+            "vote_count": 151113
+        },
+        {
+            "candidate_name": "No/Against",
+            "vote_pct": 51.2222,
+            "vote_count": 231989
+        }]
+    }]
+}

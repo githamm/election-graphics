@@ -446,7 +446,7 @@
     $.getJSON(url, function(data) {
         var sheetJson = data.feed.entry;
         var updated = sheetJson[0].gsx$updated.$t;
-        document.getElementById('updated').innerHTML = '<p class="updated">For ballots received through ' + sheetJson[0].gsx$updated.$t + '</p>';
+        document.getElementById('updated').innerHTML = '<p class="updated">Last updated on ' + sheetJson[0].gsx$updated.$t + '</p>';
 
         /// TOTAL BALLOTS BY PARTY
         // var otherPartyVotes = Number(sheetJson[0].gsx$grandtotal.$t) - (Number(sheetJson[0].gsx$dem.$t) + Number(sheetJson[0].gsx$rep.$t) + Number(sheetJson[0].gsx$uaf.$t));

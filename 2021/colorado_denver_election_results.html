@@ -1,0 +1,408 @@
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorado, Denver 2021 Election Results | The Denver Post</title>
+    <link rel="shortcut icon" href="https://www.denverpost.com/wp-content/uploads/2016/05/cropped-DP_bug_denverpost.jpg?w=32" type="image/x-icon" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.1/mustache.min.js"></script>
+    <style>
+      html,
+      body {
+        font-family: Helvetica, sans-serif;
+      }
+
+      .race-category {
+        background-color: #000;
+        color: #fff;
+        text-align: center;
+        text-transform: uppercase;
+        padding: 10px;
+        margin: 25px 0 -10px 0;
+      }
+        .race-name {
+        /*color:  #cb181d;*/
+        color: #8e0018;
+        font-weight:  400;
+        margin: 25px 0 0 0;
+      }
+
+      .race-description {
+        color:  gray;
+        font-size: .9rem;
+        margin: 2px 0 0 0;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      tr {
+        border-bottom: 1px solid lightgray;
+        height: 25px;
+      }
+      td {
+        padding: 6px 0 4px 5px;
+      }
+      .colored-bar-container {
+        width: 95%;
+      }
+      .colored-bar {
+        background-color:#dadaeb;
+        height:25px;
+        display:inline-block;
+      }
+      .colored-bar-number {
+        padding:4px 0 0 5px;
+        display:inline-block;
+      }
+      .updated {
+        text-align: right;
+        margin-bottom: -16px;
+        font-size: .9rem;
+        font-style: italic;
+        color: gray;
+        padding: 0 10px 0 0;
+      }
+    </style>
+</head>
+
+<body>
+    <section id="results">
+        <div></div>
+    </section>
+    <script id="results-template" type="text/template">
+        {{#amendment_78}}
+        <p class="updated">Results updated at {{time_updated}}</p>
+        <h2 class="race-category">{{race_category}}</h2>
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/amendment_78}}
+        {{#proposition_119}}
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/proposition_119}}
+        {{#proposition_120}}
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/proposition_120}}
+        {{#question_2a}}
+        <h2 class="race-category">{{race_category}}</h2>
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/question_2a}}
+        {{#question_2b}}
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/question_2b}}
+        {{#question_2c}}
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/question_2c}}
+        {{#question_2d}}
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/question_2d}}
+        {{#question_2e}}
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/question_2e}}
+        {{#question_2f}}
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/question_2f}}
+        {{#question_2g}}
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/question_2g}}
+        {{#question_2h}}
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/question_2h}}
+        {{#ordinance_300}}
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/ordinance_300}}
+        {{#ordinance_301}}
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/ordinance_301}}
+        {{#ordinance_302}}
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/ordinance_302}}
+        {{#ordinance_303}}
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/ordinance_303}}
+        {{#ordinance_304}}
+          <h3 class="race-name">{{race_name}}</h3>
+          <p class="race-description">{{race_description}}</p>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:10%">{{candidate}}</td>
+                <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/ordinance_304}}
+        {{#dps_at_large}}
+        <h2 class="race-category">{{race_category}}</h2>
+          <h3 class="race-name">{{race_name}}</h3>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:20%">{{candidate}}</td>
+                <td style="width:50%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/dps_at_large}}
+        {{#dps_district_2}}
+          <h3 class="race-name">{{race_name}}</h3>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:20%">{{candidate}}</td>
+                <td style="width:50%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/dps_district_2}}
+        {{#dps_district_3}}
+          <h3 class="race-name">{{race_name}}</h3>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:20%">{{candidate}}</td>
+                <td style="width:50%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/dps_district_3}}
+        {{#dps_district_4}}
+          <h3 class="race-name">{{race_name}}</h3>
+            <table><tbody>
+            {{#results}}
+              <tr>
+                <td style="width:10%;text-align:center">{{winner}}</td>
+                <td style="width:20%">{{candidate}}</td>
+                <td style="width:50%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{percentage}}%"><span class="colored-bar-number">{{percentage}}%</span></div></div></td>
+                <td style="width:20%">{{count}}</td>
+              </tr>
+            {{/results}}
+            </tbody>
+            </table>
+        {{/dps_district_4}}
+      </div>
+        </script>
+    <script>
+    // Code goes here
+
+    $(function() {
+        var data;
+        $.getJSON("./colorado_denver_election_results_data.json")
+            .done(function(dat) {
+                data = dat;
+                console.log("success", dat)
+                render();
+            })
+            .fail(function() {
+                console.log("error", arguments);
+            })
+            .always(function() {
+                console.log("complete");
+            });
+
+        function render() {
+            // mustache
+            var tmpl = $('#results-template').html();
+            var html = Mustache.render(tmpl, data);
+            $('#results').find('div').html(html);
+        }
+    });
+    </script>
+</body>
+
+</html>

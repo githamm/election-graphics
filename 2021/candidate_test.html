@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Handlebars Example - Seasons</title>
+    <meta charset="utf-8" />
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.min.js"> </script>
+    <style type="text/css">
+    html,
+    body {
+        font-family: Helvetica, sans-serif;
+    }
+
+    .race-category {
+        background-color: #000;
+        color: #fff;
+        text-align: center;
+        text-transform: uppercase;
+        padding: 10px;
+        margin: 25px 0 -10px 0;
+    }
+
+    .race-name {
+        /*color:  #cb181d;*/
+        color: #8e0018;
+        font-weight: 400;
+        margin: 25px 0 0 0;
+    }
+
+    .race-description {
+        color: gray;
+        font-size: .9rem;
+        margin: 2px 0 0 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    tr {
+        border-bottom: 1px solid lightgray;
+        height: 25px;
+    }
+
+    td {
+        padding: 6px 0 4px 5px;
+    }
+
+    .colored-bar-container {
+        width: 95%;
+    }
+
+    .colored-bar {
+        background-color: #dadaeb;
+        height: 25px;
+        display: inline-block;
+    }
+
+    .colored-bar-number {
+        padding: 4px 0 0 5px;
+        display: inline-block;
+    }
+
+    .updated {
+        text-align: right;
+        margin-bottom: -16px;
+        font-size: .9rem;
+        font-style: italic;
+        color: gray;
+        padding: 0 10px 0 0;
+    }
+
+    .handlebars {
+        display: none;
+    }
+    </style>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.min.js"> </script>
+    <script>
+        var seasons_data_url = "candidate_test.json";
+
+    // $(document).ready(function() {
+        // $.getJSON(seasons_data_url,
+            // function(data) {
+                // var mysource = $('#seasonslisttemplate').html();
+                // var mytemplate = Handlebars.compile(mysource);
+                // var myresult = mytemplate(data)
+                // $('#seasonslist').html(myresult);
+                // Get the text for the Handlebars template from the script element.
+            // });
+    // });
+
+    Handlebars.registerHelper('numberFormat', function(value, options) {
+        // Helper parameters
+        var dl = options.hash['decimalLength'] || 2;
+        var ts = options.hash['thousandsSep'] || ',';
+        var ds = options.hash['decimalSep'] || '.';
+
+        // Parse to float
+        var value = parseFloat(value);
+
+        // The regex
+        var re = '\\d(?=(\\d{3})+' + (dl > 0 ? '\\D' : '$') + ')';
+
+        // Formats the number with the decimals
+        var num = value.toFixed(Math.max(0, ~~dl));
+
+        // Returns the formatted number
+        return (ds ? num.replace('.', ds) : num).replace(new RegExp(re, 'g'), '$&' + ts);
+    });
+    </script>
+</head>
+
+<body>
+    <div id="content" class="content-wrap">
+        <script id="template" type="text/x-handlebars-template">
+            {{#Contests}}
+            <h3 class="race-name">{{race_name}}</h3>
+            <table>
+                {{#each candidate_results}}
+                <tr>
+                    <td style="width:20%">{{candidate_name}}</td>
+                    <td style="width:60%"><div class="colored-bar-container"><div class="colored-bar" style="width:{{vote_pct}}%"><span class="colored-bar-number">{{numberFormat vote_pct decimalLength="2"}}%</span></div></div></td>
+                    <td style="width:20%">{{numberFormat vote_count thousandsSep="," decimalLength="0"}}</td>
+                </tr>
+                {{/each}}
+            </table>
+            {{/Contests}}
+    </script>
+    </div>
+    <table>
+    </table>
+    <script>
+    $(document).ready(function() {
+        $.getJSON(seasons_data_url,
+            function(data) {
+                //console.log(data);
+                // var output = data;
+                // var countyCoordinates = {
+                //     'type': 'FeatureCollection',
+                //     'features': []
+                // };
+
+                // for (i = 0; i < output.length; i++) {
+                //     var longitude = (output[i].longitude);
+                //     var latitude = (output[i].latitude);
+                //     var coordinates = JSON.parse('[' + longitude + ', ' + latitude + ']');
+
+                //     countyCoordinates.features.push({
+                //         'type': 'Feature',
+                //         'geometry': {
+                //             'type': 'Point',
+                //             'coordinates': coordinates
+                //         },
+                //         'properties': {
+                //             'name': output[i].county,
+                //             'number_of_cases': output[i]['number of cases'],
+                //             'number_of_deaths': output[i]['number of deaths'],
+                //         }
+                //     });
+                // }
+
+                var template = $('#template').html();
+                var compile = Handlebars.compile(template);
+                // var result = compile(data);
+                // $('#content').html(result);
+                var result = compile(data);
+                $('#content').html(result);
+            });
+    });
+
+    var results = {
+        "Contests": [{
+            "CATKEY": null,
+            "CAT": null,
+            "C": "Amendment 78 (CONSTITUTIONAL)",
+            "K": "101",
+            "AggID": "101",
+            "regvoters": 0,
+            "BCxContest": 0,
+            "VF": 1,
+            "TP": 64,
+            "PR": 1,
+            "TV": 0,
+            "BC": 834753,
+            "RC": 0,
+            "RO": 0,
+            "CH": ["Yes/For", "No/Against"],
+            "CHAggId": [1, 2],
+            "P": ["Y", "N"],
+            "PCT": [43.5001742692131, 56.4998257307869],
+            "V": [522943, 679220],
+            "W": [0, 0],
+            "CRC": [0, 0],
+            "CRO": [0, 0],
+            "IsCumulative": null,
+            "CumulativeVotes": null,
+            "CumulativeChoices": null,
+            "CumulativePercentages": null,
+            "IsContestNoChoice": 0
+        }]
+    }
+
+    $.getJSON("./test_data.json",
+        function(data) {
+            var output = data;
+            var modifiedData = [];
+            var candidateResults = [];
+            var test = [];
+
+            for (i = 0; i < output.Contests.length; i++) {
+                modifiedData.push({
+                    'race_name': output.Contests[i].C,
+                    'candidate_name': output.Contests[i].CH,
+                    'vote_percent': output.Contests[i].PCT,
+                    'vote_count': output.Contests[i].V
+                })
+            }
+
+            var raceBlock = {
+                'Races': [],
+                'Raceresults': []
+            };
+
+            for (i = 0; i < output.Contests.length; i++) {
+                for (j = 0; j < output.Contests[i].CH.length; j++) {
+                    raceBlock.Races.push({
+                        'candidate_name': output.Contests[j].CH[j],
+                        'vote_percent': output.Contests[j].PCT[j],
+                        'vote_count': output.Contests[j].V[j]
+                    })
+                }
+            }
+            console.log(raceBlock);
+
+            // for (i in candidateResults) {
+            //     for (j in candidateResults[i]) {
+            //         //console.log(candidateResults[i][j]);
+            //     }
+            // }
+            var siteInfo = {
+                "name": "blogger",
+                "users": [
+                    ["admins", "1", "2", "3"],
+                    ["editors", "4", "5", "6"],
+                ]
+            }
+            for (i in siteInfo.users) {
+                for (j in siteInfo.users[i]) {
+                    x = siteInfo.users[i][j];
+                    //console.log(x);
+                }
+            }
+            for (i in candidateResults) {
+                for (j in candidateResults[i]) {
+                    x = candidateResults[i][j]
+                    //console.log(x);
+                }
+            }
+            //console.log(modifiedData);
+        }
+    )
+    </script>
+</body>
+
+</html>
